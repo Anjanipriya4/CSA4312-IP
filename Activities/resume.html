@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Professional Resume</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #e9edf2;
+            color: #333;
+            padding: 30px;
+        }
+
+        .resume {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .left {
+            background: #17324d;
+            color: white;
+            padding: 30px 22px;
+        }
+
+        .right {
+            padding: 35px 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .role {
+            color: #f3c969;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            font-size: 17px;
+            margin: 24px 0 12px;
+            padding-bottom: 7px;
+            border-bottom: 2px solid #e3b34c;
+        }
+
+        .left h2 {
+            color: #f3c969;
+        }
+
+        .right h2 {
+            color: #17324d;
+        }
+
+        p, li {
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        ul {
+            padding-left: 18px;
+        }
+
+        .contact p {
+            margin-bottom: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .item {
+            margin-bottom: 18px;
+        }
+
+        .item h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+            color: #263d54;
+        }
+
+        .date {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .tagline {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .buttons {
+            max-width: 850px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        button {
+            padding: 12px 22px;
+            background: #17324d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #28577f;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 10px;
+            }
+
+            .resume {
+                grid-template-columns: 1fr;
+            }
+
+            .left, .right {
+                padding: 25px;
+            }
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .resume {
+                max-width: 100%;
+                box-shadow: none;
+            }
+
+            .buttons {
+                display: none;
+            }
+
+            .left, .right {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="resume">
+
+    <!-- LEFT SECTION -->
+    <aside class="left">
+
+        <h1>Anjani Priya Yedururi</h1>
+
+        <p class="role">
+            AI & Data Science Student<br>
+            Aspiring Software Developer
+        </p>
+
+        <section class="contact">
+            <h2>CONTACT</h2>
+            <p>Email: your.email@example.com</p>
+            <p>Phone: +91 XXXXXXXXXX</p>
+            <p>Location: India</p>
+            <p>LinkedIn: Add your profile link</p>
+            <p>GitHub: Add your profile link</p>
+        </section>
+
+        <section>
+            <h2>TECHNICAL SKILLS</h2>
+            <ul>
+                <li>Python</li>
+                <li>Java</li>
+                <li>SQL</li>
+                <li>HTML and CSS</li>
+                <li>JavaScript Basics</li>
+                <li>Machine Learning Basics</li>
+                <li>Node.js Basics</li>
+                <li>React Basics</li>
+                <li>Git and GitHub</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>SOFT SKILLS</h2>
+            <ul>
+                <li>Problem Solving</li>
+                <li>Teamwork</li>
+                <li>Communication</li>
+                <li>Quick Learning</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>AREAS OF INTEREST</h2>
+            <ul>
+                <li>Web Development</li>
+                <li>Artificial Intelligence</li>
+                <li>Machine Learning</li>
+                <li>Software Engineering</li>
+            </ul>
+        </section>
+
+    </aside>
+
+    <!-- RIGHT SECTION -->
+    <main class="right">
+
+        <section>
+            <h2>CAREER OBJECTIVE</h2>
+            <p class="tagline">
+                Motivated Artificial Intelligence and Data Science student
+                seeking an opportunity to apply programming, analytical
+                thinking, and problem-solving skills to real-world projects.
+                Eager to learn new technologies and contribute to
+                innovative software solutions.
+            </p>
+        </section>
+
+        <section>
+            <h2>EDUCATION</h2>
+
+            <div class="item">
+                <h3>B.Tech - Artificial Intelligence and Data Science</h3>
+                <p>Saveetha Institute of Medical and Technical Sciences</p>
+                <p class="date">Expected Graduation: 2027</p>
+                <p>CGPA: Add your current CGPA</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>PROJECTS</h2>
+
+            <div class="item">
+                <h3>Royal Dine AR - Augmented Reality Restaurant Menu</h3>
+                <p>
+                    Developed an AR-based restaurant menu concept that allows
+                    customers to preview realistic 3D food models before
+                    ordering.
+                </p>
+                <p><strong>Technologies:</strong>
+                    HTML, CSS, JavaScript, Unity, AR Foundation
+                </p>
+            </div>
+
+            <div class="item">
+                <h3>Healthcare Cost Prediction</h3>
+                <p>
+                    Created a machine learning application to estimate
+                    healthcare insurance costs based on user information.
+                </p>
+                <p><strong>Technologies:</strong>
+                    Python, Pandas, Machine Learning, Streamlit
+                </p>
+            </div>
+
+            <div class="item">
+                <h3>Gold Price Prediction</h3>
+                <p>
+                    Explored gold price forecasting using machine learning
+                    and time-series prediction techniques.
+                </p>
+                <p><strong>Technologies:</strong>
+                    Python, SVM, LSTM
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>CERTIFICATIONS</h2>
+            <ul>
+                <li>Add your completed certifications</li>
+                <li>Add relevant workshops or training</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>DECLARATION</h2>
+            <p class="tagline">
+                I declare that the information provided above is accurate
+                to the best of my knowledge.
+            </p>
+        </section>
+
+    </main>
+
+</div>
+
+<div class="buttons">
+    <button onclick="window.print()">Download / Save as PDF</button>
+</div>
+
+</body>
+</html>

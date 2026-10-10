@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Upload and Player</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #172033;
+            color: white;
+            text-align: center;
+            padding: 40px 15px;
+        }
+
+        h1 {
+            color: #fbbf24;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px;
+            background: #263449;
+            border-radius: 15px;
+        }
+
+        input {
+            margin: 20px;
+            padding: 12px;
+            max-width: 90%;
+            background: white;
+            color: black;
+            border-radius: 5px;
+        }
+
+        video {
+            display: none;
+            width: 100%;
+            max-height: 450px;
+            margin-top: 20px;
+            border: 3px solid #fbbf24;
+            border-radius: 10px;
+        }
+
+        #status {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>My Video Player</h1>
+    <p>Upload a video and play it instantly!</p>
+
+    <div class="container">
+
+        <h2>Select Your Video</h2>
+
+        <input type="file" id="videoInput" accept="video/*">
+
+        <p id="status">No video selected</p>
+
+        <video id="player" controls>
+            Your browser does not support video playback.
+        </video>
+
+    </div>
+
+    <script>
+        const videoInput = document.getElementById("videoInput");
+        const player = document.getElementById("player");
+        const status = document.getElementById("status");
+
+        let videoURL = null;
+
+        videoInput.addEventListener("change", function () {
+            const file = this.files[0];
+
+            if (!file) return;
+
+            if (!file.type.startsWith("video/")) {
+                status.textContent = "Please select a video file.";
+                return;
+            }
+
+            if (videoURL) {
+                URL.revokeObjectURL(videoURL);
+            }
+
+            videoURL = URL.createObjectURL(file);
+
+            player.src = videoURL;
+            player.style.display = "block";
+
+            status.textContent =
+                "Video: " + file.name +
+                " | Duration will appear when loaded.";
+
+            player.load();
+
+            player.onloadedmetadata = function () {
+                status.textContent =
+                    "Video: " + file.name +
+                    " | Duration: " +
+                    player.duration.toFixed(1) + " seconds";
+            };
+
+            player.onerror = function () {
+                status.textContent =
+                    "Unable to play this video format.";
+            };
+        });
+
+        window.addEventListener("beforeunload", function () {
+            if (videoURL) {
+                URL.revokeObjectURL(videoURL);
+            }
+        });
+    </script>
+
+</body>
+</html>
