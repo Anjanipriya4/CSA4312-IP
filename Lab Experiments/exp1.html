@@ -1,0 +1,406 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Library Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            color: #243447;
+        }
+
+        header {
+            background: #17324d;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        nav {
+            background: #24557a;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ffd166;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 25px auto;
+        }
+
+        section {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #ccd3da;
+        }
+
+        h2 {
+            color: #17324d;
+            margin-bottom: 15px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            margin: 8px 0;
+            border: 1px solid #b9c5d0;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #24557a;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        button:hover {
+            background: #17324d;
+        }
+
+        .book {
+            border: 1px solid #d7dee5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+
+        .book h3 {
+            color: #24557a;
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: #17324d;
+            color: white;
+            text-align: center;
+            padding: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>College Library Management System</h1>
+    <p>Search, Borrow and Manage Books Easily</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#books">Books</a>
+    <a href="#login">Login</a>
+    <a href="#borrow">My Borrow History</a>
+    <a href="#materials">Materials</a>
+    <a href="#contact">Contact</a>
+    <a href="#admin">Admin</a>
+</nav>
+
+<div class="container">
+
+    <section id="home">
+        <h2>Welcome to Our Library</h2>
+        <p>
+            Find books, view borrowing information, check fines,
+            and access semester-wise study materials.
+        </p>
+    </section>
+
+    <section id="books">
+        <h2>Search Books</h2>
+
+        <input type="text" id="search"
+               placeholder="Enter book title or author..."
+               oninput="searchBooks()">
+
+        <div id="bookList"></div>
+    </section>
+
+    <section id="login">
+        <h2>Student Registration</h2>
+
+        <form id="registerForm">
+            <input type="text" id="studentName"
+                   placeholder="Full Name" required>
+
+            <input type="email" id="studentEmail"
+                   placeholder="Email Address" required>
+
+            <input type="password" id="studentPassword"
+                   placeholder="Password" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <hr style="margin:20px 0;">
+
+        <h2>Student Login</h2>
+
+        <form id="loginForm">
+            <input type="email" id="loginEmail"
+                   placeholder="Email Address" required>
+
+            <input type="password" id="loginPassword"
+                   placeholder="Password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p id="loginMessage"></p>
+    </section>
+
+    <section id="borrow">
+        <h2>My Borrow History</h2>
+
+        <p>Student: <span id="profileName">Not logged in</span></p>
+
+        <table border="1" cellpadding="10"
+               cellspacing="0" width="100%">
+            <tr>
+                <th>Book</th>
+                <th>Issue Date</th>
+                <th>Expected Return</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>Web Technology</td>
+                <td>2026-10-01</td>
+                <td>2026-10-15</td>
+                <td>Demo Record</td>
+            </tr>
+        </table>
+
+        <p style="margin-top:15px;">
+            Fine: ₹<span id="fine">0</span>
+        </p>
+    </section>
+
+    <section id="materials">
+        <h2>Study Materials</h2>
+
+        <select id="year">
+            <option value="">Select Year</option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+        </select>
+
+        <select id="semester">
+            <option value="">Select Semester</option>
+            <option>Semester 1</option>
+            <option>Semester 2</option>
+        </select>
+
+        <button onclick="searchMaterials()">Search Materials</button>
+
+        <p id="materialResult"></p>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+
+        <form id="contactForm">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Enter your message"
+                      rows="4" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <p id="contactMessage"></p>
+    </section>
+
+    <section id="admin">
+        <h2>Librarian Admin Dashboard</h2>
+
+        <p>Demonstration inventory management</p>
+
+        <form id="addBookForm">
+            <input type="text" id="newTitle"
+                   placeholder="Book Title" required>
+
+            <input type="text" id="newAuthor"
+                   placeholder="Author Name" required>
+
+            <input type="text" id="newCategory"
+                   placeholder="Category" required>
+
+            <button type="submit">Add Book</button>
+        </form>
+
+        <p>
+            For a real deployment, protect this dashboard
+            with server-side administrator authentication.
+        </p>
+    </section>
+
+</div>
+
+<footer>
+    <p>College Library Management System | 2026</p>
+</footer>
+
+<script>
+    let books = [
+        {
+            title: "Web Technology",
+            author: "Uttam K. Roy",
+            category: "Computer Science"
+        },
+        {
+            title: "Java Programming",
+            author: "Herbert Schildt",
+            category: "Programming"
+        },
+        {
+            title: "Database Management Systems",
+            author: "Raghu Ramakrishnan",
+            category: "Database"
+        },
+        {
+            title: "Artificial Intelligence",
+            author: "Stuart Russell",
+            category: "AI"
+        }
+    ];
+
+    function displayBooks(items) {
+        const list = document.getElementById("bookList");
+        list.innerHTML = "";
+
+        if (items.length === 0) {
+            list.textContent = "No books found.";
+            return;
+        }
+
+        items.forEach(function(book) {
+            const div = document.createElement("div");
+            div.className = "book";
+
+            const title = document.createElement("h3");
+            title.textContent = book.title;
+
+            const author = document.createElement("p");
+            author.textContent = "Author: " + book.author;
+
+            const category = document.createElement("p");
+            category.textContent = "Category: " + book.category;
+
+            div.append(title, author, category);
+            list.appendChild(div);
+        });
+    }
+
+    function searchBooks() {
+        const query = document.getElementById("search")
+            .value.toLowerCase();
+
+        const results = books.filter(function(book) {
+            return book.title.toLowerCase().includes(query) ||
+                   book.author.toLowerCase().includes(query) ||
+                   book.category.toLowerCase().includes(query);
+        });
+
+        displayBooks(results);
+    }
+
+    displayBooks(books);
+
+    document.getElementById("addBookForm")
+        .addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            books.push({
+                title: document.getElementById("newTitle").value,
+                author: document.getElementById("newAuthor").value,
+                category: document.getElementById("newCategory").value
+            });
+
+            displayBooks(books);
+            this.reset();
+
+            alert("Book added to the demonstration catalog.");
+        });
+
+    document.getElementById("registerForm")
+        .addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name =
+                document.getElementById("studentName").value;
+
+            document.getElementById("profileName").textContent = name;
+
+            document.getElementById("loginMessage").textContent =
+                "Registration form completed. Connect a backend to create an account.";
+
+            this.reset();
+        });
+
+    document.getElementById("loginForm")
+        .addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            document.getElementById("loginMessage").textContent =
+                "Demo login submitted. Real authentication requires a backend.";
+
+            this.reset();
+        });
+
+    function searchMaterials() {
+        const year = document.getElementById("year").value;
+        const semester = document.getElementById("semester").value;
+
+        const output = document.getElementById("materialResult");
+
+        if (!year || !semester) {
+            output.textContent = "Please select both year and semester.";
+            return;
+        }
+
+        output.textContent =
+            "Selected: " + year + ", " + semester +
+            ". Upload actual study files and connect a backend to download them.";
+    }
+
+    document.getElementById("contactForm")
+        .addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            document.getElementById("contactMessage").textContent =
+                "Demo message submitted. A backend is required to send or store it.";
+
+            this.reset();
+        });
+</script>
+
+</body>
+</html>
+```
