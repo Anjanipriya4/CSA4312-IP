@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Stay | Hotel Booking</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f4f0;color:#26332d}
+header{background:#183b32;color:white;padding:18px 5%;display:flex;
+justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.logo{font-size:25px;font-weight:bold;color:#e9c88d}
+nav{display:flex;gap:7px;flex-wrap:wrap}
+button{border:0;padding:11px 15px;border-radius:5px;cursor:pointer;
+background:#bd9555;color:white;font-weight:bold}
+nav button{background:transparent;color:white}
+button:hover{opacity:.85}
+.hero{padding:65px 5%;text-align:center;color:white;
+background:linear-gradient(90deg,#102b24e8,#102b2460),
+linear-gradient(135deg,#54796b,#c5a979)}
+.hero h1{font-size:38px;margin-bottom:12px}
+.hero p{margin-bottom:28px}
+.search{background:white;color:#26332d;max-width:1050px;margin:auto;
+padding:20px;border-radius:9px;display:grid;
+grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px;text-align:left}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d0d6d1;
+border-radius:5px;font:inherit;background:white}
+.search button{margin-top:20px}
+main{max-width:1150px;margin:35px auto;padding:0 20px}
+h2{margin-bottom:18px}
+.muted{color:#68766f;font-size:14px;line-height:1.7}
+.rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.room{background:white;border-radius:9px;overflow:hidden;box-shadow:0 4px 14px #0000000d}
+.room img{width:100%;height:175px;object-fit:cover;background:#ddd}
+.room-content{padding:18px}
+.room h3{margin-bottom:8px;color:#23483a}
+.room p{margin:8px 0}
+.price{color:#a77732;font-size:22px;font-weight:bold}
+.panel{background:white;padding:24px;border-radius:9px;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.hidden{display:none!important}
+.notice{padding:14px;background:#e6f4e9;color:#205b37;border-radius:5px;margin:15px 0}
+.booking{border:1px solid #e1e5e1;padding:16px;border-radius:7px;margin:12px 0}
+.booking h3{margin-bottom:9px}
+footer{background:#183b32;color:white;padding:35px 5%;margin-top:45px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:25px}
+footer h3{color:#e9c88d;margin-bottom:12px}
+footer p,footer a{color:#e4e9e5;line-height:1.9}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{text-align:left;padding:11px;border-bottom:1px solid #ddd}
+.small{font-size:12px}
+@media(max-width:600px){.hero h1{font-size:28px}header{padding:15px}
+.hero{padding:40px 15px}.search{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">ROYAL STAY</div>
+ <nav>
+  <button onclick="page('home')">Home</button>
+  <button onclick="page('bookings')">My Bookings</button>
+  <button onclick="page('profile')">My Profile</button>
+  <button onclick="page('account')">Register / Login</button>
+  <button onclick="page('admin')">Admin</button>
+ </nav>
+</header>
+
+<section id="hero" class="hero">
+ <h1>Find Your Perfect Stay</h1>
+ <p>Comfort, elegance and memorable experiences.</p>
+ <div class="search">
+  <div><label>DESTINATION</label><input id="destination" placeholder="City or hotel"></div>
+  <div><label>CHECK-IN</label><input type="date" id="checkin"></div>
+  <div><label>CHECK-OUT</label><input type="date" id="checkout"></div>
+  <div><label>GUESTS</label><select id="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
+  <div><label>ROOM TYPE</label><select id="roomFilter"><option value="All">All room types</option><option>Standard</option><option>Deluxe</option><option>Suite</option><option>Family</option></select></div>
+  <div><button onclick="searchRooms()">Search Rooms</button></div>
+ </div>
+</section>
+
+<main>
+<section id="home">
+ <h2>Our Rooms</h2>
+ <p class="muted" style="margin-bottom:20px">Choose a room that suits your comfort and budget.</p>
+ <div id="roomList" class="rooms"></div>
+ <div class="panel" style="margin-top:35px">
+  <h2>Guest Reviews</h2>
+  <p>★★★★★ Excellent hospitality and comfortable rooms.</p>
+  <p class="muted">Sample review for the website demonstration.</p>
+  <div class="grid" style="margin-top:20px">
+   <div><label>Rate your stay</label><select id="rating"><option value="5">★★★★★ - 5</option><option value="4">★★★★ - 4</option><option value="3">★★★ - 3</option><option value="2">★★ - 2</option><option value="1">★ - 1</option></select></div>
+   <div><label>Your review</label><input id="reviewText" placeholder="Write your feedback"></div>
+  </div>
+  <button onclick="addReview()" style="margin-top:13px">Submit Review</button>
+  <div id="reviews"></div>
+ </div>
+</section>
+
+<section id="bookingPage" class="hidden">
+ <div class="panel">
+  <h2>Complete Your Booking</h2>
+  <div id="selectedRoom"></div>
+  <div class="grid" style="margin-top:20px">
+   <div><label>Full Name</label><input id="guestName" placeholder="Full name"></div>
+   <div><label>Email</label><input id="guestEmail" type="email" placeholder="Email address"></div>
+   <div><label>Phone</label><input id="guestPhone" type="tel" maxlength="10" placeholder="10-digit mobile"></div>
+  </div>
+  <p id="bookingTotal" style="font-size:22px;font-weight:bold;margin:20px 0"></p>
+  <p class="muted">Demo payment only. No money will be charged.</p>
+  <button onclick="confirmBooking()">Confirm Demo Booking</button>
+  <button onclick="page('home')" style="background:#68766f">Back</button>
+ </div>
+</section>
+
+<section id="bookings" class="hidden">
+ <div class="panel"><h2>My Booking History</h2><div id="bookingHistory"></div></div>
+</section>
+
+<section id="profile" class="hidden">
+ <div class="panel">
+  <h2>My Profile</h2>
+  <div class="grid">
+   <div><label>Name</label><input id="profileName"></div>
+   <div><label>Email</label><input id="profileEmail" type="email"></div>
+   <div><label>Phone</label><input id="profilePhone" maxlength="10"></div>
+  </div>
+  <button onclick="saveProfile()" style="margin-top:18px">Update Profile</button>
+  <p id="profileMsg" style="margin-top:12px"></p>
+ </div>
+</section>
+
+<section id="account" class="hidden">
+ <div class="panel">
+  <h2>Register / Demo Login</h2>
+  <p class="muted">Enter your details to try the demo. Do not use a real password.</p>
+  <div class="grid" style="margin-top:18px">
+   <div><label>Name</label><input id="accountName" placeholder="Your name"></div>
+   <div><label>Email</label><input id="accountEmail" type="email" placeholder="Your email"></div>
+   <div><label>Phone</label><input id="accountPhone" maxlength="10" placeholder="10-digit phone"></div>
+   <div><label>Demo Password</label><input id="accountPassword" type="password" placeholder="Demo password"></div>
+  </div>
+  <button onclick="register()" style="margin-top:18px">Register / Login</button>
+  <p id="accountMsg" style="margin-top:12px"></p>
+ </div>
+</section>
+
+<section id="admin" class="hidden">
+ <div class="panel">
+  <h2>Administrator Dashboard</h2>
+  <p class="muted">Demonstration only: this panel is not protected by real admin authentication.</p>
+  <div id="stats" style="margin:18px 0"></div>
+  <h3>Add or Update Room Details</h3>
+  <div class="grid" style="margin:15px 0">
+   <div><label>Room Type</label><select id="adminType"><option>Standard</option><option>Deluxe</option><option>Suite</option><option>Family</option></select></div>
+   <div><label>Price Per Night (₹)</label><input id="adminPrice" type="number" min="1"></div>
+   <div><label>Total Rooms</label><input id="adminQuantity" type="number" min="0"></div>
+  </div>
+  <button onclick="updateRoom()">Update Room Type</button>
+  <h3 style="margin-top:28px">Manage Bookings</h3>
+  <div id="adminBookings"></div>
+  <h3 style="margin-top:28px">Edit Website Information</h3>
+  <p class="muted">The text below updates the information shown in the footer.</p>
+  <div class="grid" style="margin:15px 0">
+   <div><label>About Us</label><textarea id="aboutEdit" rows="3"></textarea></div>
+   <div><label>Contact Information</label><textarea id="contactEdit" rows="3"></textarea></div>
+   <div><label>Customer Service Q&A</label><textarea id="faqEdit" rows="3"></textarea></div>
+   <div><label>Local Travel Guide</label><textarea id="travelEdit" rows="3"></textarea></div>
+   <div><label>Privacy Policy</label><textarea id="privacyEdit" rows="3"></textarea></div>
+  </div>
+  <button onclick="saveContent()">Save Website Information</button>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="footer-grid">
+  <div><h3>About Royal Stay</h3><p id="aboutText">Royal Stay offers comfortable rooms for relaxing stays and memorable journeys.</p></div>
+  <div><h3>Contact Us</h3><p id="contactText">Email: demo@royalstay.example<br>Phone: 0000000000</p></div>
+  <div><h3>Customer Service Q&A</h3><p id="faqText">Check-in: 12 PM<br>Check-out: 11 AM<br>Contact reception for assistance.</p></div>
+  <div><h3>Local Travel Guide</h3><p id="travelText">Explore local attractions, restaurants and transport services near your destination.</p></div>
+  <div><h3>Privacy Policy</h3><p id="privacyText">This sample website stores demo data in your browser. Do not enter sensitive personal information.</p></div>
+ </div>
+ <p class="small" style="margin-top:25px">© 2026 Royal Stay. Educational demonstration website.</p>
+</footer>
+
+<script>
+const initialRooms=[
+ {id:1,type:"Standard",price:1800,quantity:10,desc:"Comfortable room with essential amenities.",amenities:"Wi-Fi · TV · Queen bed",img:"https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=700"},
+ {id:2,type:"Deluxe",price:3000,quantity:8,desc:"Spacious room with elegant furnishings.",amenities:"Wi-Fi · TV · King bed · View",img:"https://images.unsplash.com/photo-1590490360182-c33d57733427?w=700"},
+ {id:3,type:"Suite",price:5500,quantity:4,desc:"Premium suite for a luxurious experience.",amenities:"Lounge · Wi-Fi · King bed",img:"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700"},
+ {id:4,type:"Family",price:4000,quantity:6,desc:"A larger room designed for family stays.",amenities:"Extra beds · Wi-Fi · TV",img:"https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=700"}
+];
+const $=id=>document.getElementById(id);
+function load(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch(e){return fallback}}
+let rooms=load("rsRooms",initialRooms),bookings=load("rsBookings",[]),users=load("rsUsers",[]),reviews=load("rsReviews",[]);
+let activeEmail=localStorage.getItem("rsActiveEmail")||"",chosenRoom=null,searchState=null;
+let content=load("rsContent",{
+ about:"Royal Stay offers comfortable rooms for relaxing stays and memorable journeys.",
+ contact:"Email: demo@royalstay.example\nPhone: 0000000000",
+ faq:"Check-in: 12 PM\nCheck-out: 11 AM\nContact reception for assistance.",
+ travel:"Explore local attractions, restaurants and transport services near your destination.",
+ privacy:"This sample website stores demo data in your browser. Do not enter sensitive personal information."
+});
+function persist(){localStorage.setItem("rsRooms",JSON.stringify(rooms));localStorage.setItem("rsBookings",JSON.stringify(bookings));localStorage.setItem("rsUsers",JSON.stringify(users));localStorage.setItem("rsReviews",JSON.stringify(reviews));}
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function validDates(a,b){return a&&b&&a>=today()&&b>a}
+function today(){let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function nights(){return Math.round((new Date($("checkout").value+"T12:00:00")-new Date($("checkin").value+"T12:00:00"))/86400000)}
+$("checkin").min=today();$("checkout").min=today();
+$("checkin").addEventListener("change",()=>{$("checkout").min=$("checkin").value||today();if($("checkout").value<=$("checkin").value)$("checkout").value=""});
+function page(p){
+ ["home","bookingPage","bookings","profile","account","admin"].forEach(x=>$(x).classList.toggle("hidden",x!==p));
+ $("hero").classList.toggle("hidden",p!=="home");
+ if(p==="bookings")renderBookings();if(p==="admin")renderAdmin();if(p==="profile")fillProfile();
+ window.scrollTo(0,0);
+}
+function available(r,a,b,excludeId=null){
+ let used=bookings.filter(x=>x.status==="Confirmed"&&x.roomId===r.id&&x.id!==excludeId&&x.checkin<b&&x.checkout>a).length;
+ return Math.max(0,r.quantity-used);
+}
+function searchRooms(){
+ const a=$("checkin").value,b=$("checkout").value;
+ if(!validDates(a,b))return alert("Choose a valid check-in date and a later check-out date.");
+ searchState={a,b,guests:Number($("guests").value),destination:$("destination").value.trim(),type:$("roomFilter").value};
+ renderRooms();$("roomList").scrollIntoView({behavior:"smooth"});
+}
+function renderRooms(){
+ let list=rooms.filter(r=>(!searchState||searchState.type==="All"||r.type===searchState.type)&&(!searchState||!searchState.destination||"Royal Stay".toLowerCase().includes(searchState.destination.toLowerCase())||"".toLowerCase().includes(searchState.destination.toLowerCase())));
+ $("roomList").innerHTML=list.map(r=>{
+ let av=searchState?available(r,searchState.a,searchState.b):r.quantity;
+ return `<article class="room"><img src="${esc(r.img)}" alt="${esc(r.type)} room" onerror="this.style.display='none'"><div class="room-content"><h3>${esc(r.type)} Room</h3><p class="muted">${esc(r.desc)}</p><p class="muted">${esc(r.amenities)}</p><p>Availability: <b>${av}</b> rooms</p><p class="price">₹${r.price.toLocaleString("en-IN")} <span class="muted">/ night</span></p><button ${av<1?"disabled":""} onclick="startBooking(${r.id})">${av<1?"Unavailable":"Book Room"}</button></div></article>`;
+ }).join("")||"<p>No rooms match your search.</p>";
+}
+function startBooking(id){
+ if(!searchState){alert("Please search rooms and select your dates first.");return}
+ chosenRoom=rooms.find(r=>r.id===id);
+ if(!chosenRoom||available(chosenRoom,searchState.a,searchState.b)<1)return alert("No rooms available for those dates.");
+ $("selectedRoom").innerHTML=`<h3>${esc(chosenRoom.type)} Room</h3><p>${esc(searchState.a)} to ${esc(searchState.b)} · ${searchState.b?Math.round((new Date(searchState.b)-new Date(searchState.a))/86400000):0} night(s)</p><p class="muted">Guests: ${searchState.guests}</p>`;
+ $("guestName").value=localStorage.getItem("rsName")||"";
+ $("guestEmail").value=activeEmail;
+ $("bookingTotal").textContent="Total: ₹"+(chosenRoom.price*Math.round((new Date(searchState.b)-new Date(searchState.a))/86400000)).toLocaleString("en-IN");
+ page("bookingPage");
+}
+function confirmBooking(){
+ const name=$("guestName").value.trim(),email=$("guestEmail").value.trim(),phone=$("guestPhone").value.trim();
+ if(!chosenRoom||!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!/^\d{10}$/.test(phone))return alert("Enter your name, a valid email and a 10-digit phone number.");
+ if(available(chosenRoom,searchState.a,searchState.b)<1)return alert("Sorry, this room is no longer available.");
+ const n=Math.round((new Date(searchState.b)-new Date(searchState.a))/86400000);
+ let booking={id:Date.now(),roomId:chosenRoom.id,type:chosenRoom.type,name,email,phone,checkin:searchState.a,checkout:searchState.b,guests:searchState.guests,total:chosenRoom.price*n,status:"Confirmed"};
+ bookings.push(booking);activeEmail=email;localStorage.setItem("rsActiveEmail",email);localStorage.setItem("rsName",name);persist();
+ alert("Demo booking confirmed! Booking ID: RS"+booking.id+". No payment was taken.");
+ page("bookings");
+}
+function renderBookings(){
+ const mine=bookings.filter(b=>b.email===activeEmail);
+ $("bookingHistory").innerHTML=mine.length?mine.map(b=>`<div class="booking"><h3>${esc(b.type)} Room · RS${b.id}</h3><p>${esc(b.checkin)} → ${esc(b.checkout)} · ${b.guests} guest(s)</p><p>Guest: ${esc(b.name)} · Total: ₹${b.total.toLocaleString("en-IN")}</p><p>Status: <b>${esc(b.status)}</b></p>${b.status==="Confirmed"?`<button onclick="modifyBooking(${b.id})">Modify Booking</button> <button onclick="cancelBooking(${b.id})">Cancel Booking</button>`:""}</div>`).join(""):"<p>No bookings found for this email. Register or make a demo booking first.</p>";
+}
+function modifyBooking(id){
+ const b=bookings.find(x=>x.id===id);
+ if(!b||b.status!=="Confirmed")return;
+ const arrival=new Date(b.checkin+"T00:00:00"),cutoff=new Date(arrival);cutoff.setDate(cutoff.getDate()-3);
+ if(new Date(today()+"T00:00:00")>cutoff)return alert("Changes must be made at least 3 days before check-in.");
+ const a=prompt("New check-in date (YYYY-MM-DD)",b.checkin);if(!a)return;
+ const c=prompt("New check-out date (YYYY-MM-DD)",b.checkout);if(!c)return;
+ if(!validDates(a,c))return alert("Invalid dates.");
+ if(available(rooms.find(r=>r.id===b.roomId),a,c,b.id)<1)return alert("No room available for those dates.");
+ b.checkin=a;b.checkout=c;
+ const room=rooms.find(r=>r.id===b.roomId);b.total=room.price*Math.round((new Date(c)-new Date(a))/86400000);
+ persist();renderBookings();alert("Booking dates updated in this demo.");
+}
+function cancelBooking(id){
+ const b=bookings.find(x=>x.id===id);if(!b||b.status!=="Confirmed")return;
+ const cutoff=new Date(b.checkin+"T00:00:00");cutoff.setDate(cutoff.getDate()-3);
+ if(new Date(today()+"T00:00:00")>cutoff)return alert("Cancellation must be made at least 3 days before check-in.");
+ if(!confirm("Cancel this demo booking?"))return;
+ b.status="Cancelled";persist();renderBookings();
+}
+function register(){
+ const name=$("accountName").value.trim(),email=$("accountEmail").value.trim(),phone=$("accountPhone").value.trim(),password=$("accountPassword").value;
+ if(!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!/^\d{10}$/.test(phone)||password.length<4)return alert("Enter a name, valid email, 10-digit phone and demo password.");
+ let u=users.find(x=>x.email===email);
+ if(u){if(u.password!==password)return alert("Demo password does not match.");}
+ else users.push({name,email,phone,password});
+ activeEmail=email;localStorage.setItem("rsActiveEmail",email);localStorage.setItem("rsName",name);persist();
+ $("accountMsg").textContent="Demo login successful. Welcome, "+name+"!";
+}
+function fillProfile(){
+ const u=users.find(x=>x.email===activeEmail);
+ $("profileName").value=u?.name||localStorage.getItem("rsName")||"";
+ $("profileEmail").value=u?.email||activeEmail;
+ $("profilePhone").value=u?.phone||"";
+}
+function saveProfile(){
+ const name=$("profileName").value.trim(),email=$("profileEmail").value.trim(),phone=$("profilePhone").value.trim();
+ if(!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!/^\d{10}$/.test(phone))return alert("Enter a valid name, email and 10-digit phone.");
+ if(users.some(u=>u.email===email&&u.email!==activeEmail))return alert("That email is already registered.");
+ const u=users.find(x=>x.email===activeEmail);
+ if(u){u.name=name;u.email=email;u.phone=phone}
+ bookings.filter(b=>b.email===activeEmail).forEach(b=>{b.email=email;b.name=name;b.phone=phone});
+ activeEmail=email;localStorage.setItem("rsActiveEmail",email);localStorage.setItem("rsName",name);persist();
+ $("profileMsg").textContent="Profile updated in this browser.";
+}
+function updateRoom(){
+ const type=$("adminType").value,price=Number($("adminPrice").value),quantity=Number($("adminQuantity").value);
+ if(!Number.isFinite(price)||price<=0||!Number.isInteger(quantity)||quantity<0)return alert("Enter a valid price and whole-number room quantity.");
+ const r=rooms.find(x=>x.type===type);r.price=price;r.quantity=quantity;
+ persist();renderRooms();renderAdmin();alert("Room details updated.");
+}
+function renderAdmin(){
+ $("stats").innerHTML=`<p><b>Room types:</b> ${rooms.length} | <b>Bookings:</b> ${bookings.length} | <b>Confirmed:</b> ${bookings.filter(b=>b.status==="Confirmed").length} | <b>Cancelled:</b> ${bookings.filter(b=>b.status==="Cancelled").length}</p>`;
+ $("adminBookings").innerHTML=bookings.length?`<div style="overflow-x:auto"><table><tr><th>Booking</th><th>Guest</th><th>Room</th><th>Dates</th><th>Total</th><th>Status</th><th>Action</th></tr>${bookings.map(b=>`<tr><td>RS${b.id}</td><td>${esc(b.name)}<br>${esc(b.email)}</td><td>${esc(b.type)}</td><td>${esc(b.checkin)}<br>${esc(b.checkout)}</td><td>₹${b.total}</td><td>${esc(b.status)}</td><td>${b.status==="Confirmed"?`<button onclick="adminCancel(${b.id})">Cancel</button>`:"—"}</td></tr>`).join("")}</table></div>`:"<p>No bookings yet.</p>";
+ $("aboutEdit").value=content.about;$("contactEdit").value=content.contact;$("faqEdit").value=content.faq;$("travelEdit").value=content.travel;$("privacyEdit").value=content.privacy;
+}
+function adminCancel(id){if(!confirm("Admin: cancel this booking?"))return;const b=bookings.find(x=>x.id===id);if(b)b.status="Cancelled";persist();renderAdmin()}
+function saveContent(){
+ content={about:$("aboutEdit").value,contact:$("contactEdit").value,faq:$("faqEdit").value,travel:$("travelEdit").value,privacy:$("privacyEdit").value};
+ localStorage.setItem("rsContent",JSON.stringify(content));applyContent();alert("Website information saved in this browser.");
+}
+function applyContent(){Object.keys(content).forEach(k=>{const el=$(k+"Text");if(el)el.innerHTML=esc(content[k]).replace(/\n/g,"<br>")})}
+function addReview(){
+ const text=$("reviewText").value.trim();if(!text)return alert("Enter a review first.");
+ reviews.push({rating:$("rating").value,text});persist();renderReviews();$("reviewText").value="";
+}
+function renderReviews(){$("reviews").innerHTML=reviews.map(r=>`<div class="booking"><b>${"★".repeat(Number(r.rating))}</b><p>${esc(r.text)}</p></div>`).join("")}
+applyContent();renderRooms();renderReviews();
+</script>
+</body>
+</html>
